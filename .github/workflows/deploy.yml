@@ -23,7 +23,7 @@ jobs:
 
       - name: Install deps
         run: npm install
-        working-directory: ./
+        working-directory: ./mmmskin
 
       - name: Compute base path for Vite
         id: base
@@ -38,11 +38,12 @@ jobs:
 
       - name: Build
         run: npx vite build --base "${{ steps.base.outputs.base }}"
+        working-directory: ./mmmskin
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./mmmskin/dist
           force_orphan: true
 
