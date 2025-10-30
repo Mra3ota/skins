@@ -21,9 +21,23 @@ jobs:
           node-version: '20'
           # caching disabled to avoid lock-file check at repo root
 
+      - name: Detect project directories
+        id: paths
+        shell: bash
+        run: |
+          if [ -d "./mmmskin" ]; then
+            echo "dir=./mmmskin" >> $GITHUB_OUTPUT
+            echo "dist=./mmmskin/dist" >> $GITHUB_OUTPUT
+          else
+            echo "dir=./" >> $GITHUB_OUTPUT
+            echo "dist=./dist" >> $GITHUB_OUTPUT
+          fi
+
       - name: Install deps
-        run: npm install
-        working-directory: ./mmmskin
+        shell: bash
+        run: |
+          cd "${{ steps.paths.outputs.dir }}"
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
       - name: Compute base path for Vite
         id: base
@@ -37,13 +51,15 @@ jobs:
           fi
 
       - name: Build
-        run: npx vite build --base "${{ steps.base.outputs.base }}"
-        working-directory: ./mmmskin
+        shell: bash
+        run: |
+          cd "${{ steps.paths.outputs.dir }}"
+          npx vite build --base "${{ steps.base.outputs.base }}"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./mmmskin/dist
+          publish_dir: ${{ steps.paths.outputs.dist }}
           force_orphan: true
 
