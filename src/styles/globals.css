@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --bg-primary:#0a0a0a;
+  --bg-secondary:#121212;
+  --bg-elevated:#1a1a1a;
+
+  --text-primary:#ffffff;
+  --text-secondary:#9ca3af;
+  --text-muted:#6b7280;
+
+  --purple:#a855f7;
+  --pink:#ec4899;
+  --blue:#3b82f6;
+  --gradient-ring: linear-gradient(135deg,#a855f7 0%,#ec4899 25%,#8b5cf6 50%,#3b82f6 75%,#a855f7 100%);
+  --gradient-glow: linear-gradient(135deg,rgba(168,85,247,0.3) 0%,rgba(236,72,153,0.3) 50%,rgba(59,130,246,0.3) 100%);
+  --gradient-text: linear-gradient(90deg,#a855f7 0%,#ec4899 50%,#3b82f6 100%);
+}
+
+html, body, #root{
+  height:100%;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.gradient-text{
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card-surface{
+  background: color-mix(in oklab, #ffffff 5%, transparent);
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+}
+
+.hover-scale{ transition: transform .35s ease, filter .35s ease, box-shadow .35s ease, opacity .35s ease; }
+.hover-scale:hover{ transform: scale(1.02); filter: brightness(1.08); }
+
+.glow{ background: var(--gradient-ring); filter: blur(18px); opacity:.5; }
+
+.pixelated{ image-rendering: pixelated; }
+
